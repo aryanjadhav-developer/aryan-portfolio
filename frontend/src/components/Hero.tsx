@@ -2,10 +2,10 @@ import { useEffect, useRef, useState } from 'react'
 import { Github, Linkedin, Mail, ArrowRight, FileDown } from 'lucide-react'
 import { motion, useReducedMotion, Magnetic } from './motion'
 import { useScroll, useTransform } from 'framer-motion'
+import ArchFlow from './ArchFlow'
 import type { Profile } from '../types'
 
 const ROLES = ['.NET Backend Developer', 'ASP.NET Core Engineer', 'Full-Stack Web Developer', 'Clean-Code Advocate']
-const HERO_BADGES = ['C#', '.NET', 'ASP.NET Core', 'React', 'SQL Server', 'EF Core', 'Azure', 'SignalR']
 
 function useTypewriter(words: string[], enabled: boolean) {
   const [text, setText] = useState(enabled ? '' : words[0])
@@ -102,18 +102,7 @@ export default function Hero({ profile }: { profile: Profile }) {
           </div>
         </motion.div>
 
-          <div className="hero-float" aria-hidden="true">
-            {HERO_BADGES.map((b, i) => (
-              <motion.span
-                className="hero-chip"
-                key={b}
-                animate={reduce ? {} : { y: [0, -7, 0] }}
-                transition={{ duration: 3 + (i % 4) * 0.4, repeat: Infinity, ease: 'easeInOut', delay: i * 0.18 }}
-              >
-                {b}
-              </motion.span>
-            ))}
-          </div>
+          <ArchFlow />
         </div>
       </div>
 
