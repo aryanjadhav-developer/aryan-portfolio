@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { Github, Linkedin, Mail, ArrowRight, FileDown } from 'lucide-react'
 import { motion, useReducedMotion, Magnetic } from './motion'
 import { useScroll, useTransform } from 'framer-motion'
-import ArchFlow from './ArchFlow'
+import RobotCar from './RobotCar'
 import type { Profile } from '../types'
 
 const ROLES = ['.NET Backend Developer', 'ASP.NET Core Engineer', 'Full-Stack Web Developer', 'Clean-Code Advocate']
@@ -48,10 +48,6 @@ export default function Hero({ profile }: { profile: Profile }) {
     <section className="hero" id="top" ref={ref}>
       <div className="container hero-grid">
         <div>
-          <motion.span className="hero-badge" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-            <span className="pulse" /> Available for opportunities · Pune, IN
-          </motion.span>
-
           <h1>
             <span className="line"><motion.span style={{ display: 'inline-block' }} custom={0} variants={lineV} initial="hidden" animate="show">Hi, I&apos;m <span className="grad-text">{first}</span>.</motion.span></span>
             <span className="line"><motion.span style={{ display: 'inline-block' }} custom={1} variants={lineV} initial="hidden" animate="show">I build software</motion.span></span>
@@ -102,7 +98,7 @@ export default function Hero({ profile }: { profile: Profile }) {
           </div>
         </motion.div>
 
-          <ArchFlow />
+          <RobotCar />
         </div>
       </div>
 

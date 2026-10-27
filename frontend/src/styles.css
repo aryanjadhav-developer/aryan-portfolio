@@ -181,19 +181,24 @@ h1, h2, h3, h4 { font-family: var(--font-display); line-height: 1.05; margin: 0;
 /* Hero right column (terminal + floating badges) */
 .hero-right { display: flex; flex-direction: column; gap: 1.4rem; justify-content: center; }
 
-/* Architecture-flow prop under the terminal */
-.archflow { padding: 0.5rem 0.9rem 0.9rem; }
-.archflow-head { display: flex; align-items: center; gap: 0.5rem; padding: 0.3rem 0 0.5rem; }
-.archflow-head .dot-r, .archflow-head .dot-y, .archflow-head .dot-g { width: 9px; height: 9px; border-radius: 50%; }
-.archflow-head .dot-r { background: #ff5f56; } .archflow-head .dot-y { background: #ffbd2e; } .archflow-head .dot-g { background: #27c93f; }
-.archflow-head .af-title { margin-left: auto; font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-dim); }
-.arch-dot { animation-name: archflow; animation-timing-function: linear; animation-iteration-count: infinite; }
-@keyframes archflow {
-  0% { transform: translateX(0); opacity: 0; }
-  8% { opacity: 1; }
-  92% { opacity: 1; }
-  100% { transform: translateX(398px); opacity: 0; }
-}
+/* Robotic car prop under the terminal */
+.car-card { padding: 0.5rem 0.9rem 0.9rem; }
+.car-head { display: flex; align-items: center; gap: 0.5rem; padding: 0.3rem 0 0.6rem; }
+.car-head .dot-r, .car-head .dot-y, .car-head .dot-g { width: 9px; height: 9px; border-radius: 50%; }
+.car-head .dot-r { background: #ff5f56; } .car-head .dot-y { background: #ffbd2e; } .car-head .dot-g { background: #27c93f; }
+.car-head .af-title { margin-left: auto; font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-dim); }
+
+.car-track { position: relative; height: 92px; overflow: hidden; border-radius: 12px;
+  background: radial-gradient(120% 80% at 50% 120%, rgba(34,212,255,0.08), transparent 60%); }
+.car-ground { position: absolute; left: 0; right: 0; bottom: 16px; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--glass-border-str) 20%, var(--glass-border-str) 80%, transparent); }
+.car { position: absolute; bottom: 8px; left: 0; line-height: 0; will-change: transform;
+  filter: drop-shadow(0 0 10px rgba(34,212,255,0.4));
+  animation: drive 4.5s linear infinite; }
+@keyframes drive { from { transform: translateX(-150px); } to { transform: translateX(520px); } }
+.car-wheel { transform-box: fill-box; animation: wheelspin 0.45s linear infinite; }
+@keyframes wheelspin { to { transform: rotate(360deg); } }
+.car-trails { opacity: 0.9; }
 
 /* Terminal (hero right) */
 .terminal { border-radius: var(--radius); overflow: hidden; box-shadow: 0 40px 100px -40px rgba(0,0,0,0.9); transform-style: preserve-3d; }
