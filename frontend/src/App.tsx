@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react'
 import { ArrowUp } from 'lucide-react'
+import Background from './components/Background'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
+import Marquee from './components/Marquee'
 import About from './components/About'
 import Skills from './components/Skills'
 import Projects from './components/Projects'
@@ -24,26 +26,26 @@ export default function App() {
     let active = true
     Promise.all([fetchProfile(), fetchProjects()]).then(([p, pr]) => {
       if (!active) return
-      setProfile(p.data)
-      setProjects(pr.data)
-      setApiLive(p.live && pr.live)
+      setProfile(p.data); setProjects(pr.data); setApiLive(p.live && pr.live)
     })
     return () => { active = false }
   }, [])
 
   useEffect(() => {
-    const onScroll = () => setShowTop(window.scrollY > 600)
+    const onScroll = () => setShowTop(window.scrollY > 700)
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
   return (
     <>
+      <Background />
       <ScrollProgress />
       <CursorGlow />
       <Navbar />
       <main>
         <Hero profile={profile} />
+        <Marquee />
         <About profile={profile} />
         <Skills profile={profile} />
         <Projects projects={projects} />

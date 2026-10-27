@@ -1,44 +1,52 @@
-import { Reveal } from './motion'
+import { Sparkles, Rocket, Gauge, Layers } from 'lucide-react'
+import { Reveal, SectionHeading, Counter, TiltCard } from './motion'
 import type { Profile } from '../types'
 
-const STATS = [
-  ['3+', 'Internships & roles'],
-  ['4', 'Shipped projects'],
-  ['20%', 'Perf gain delivered'],
-  ['2', 'Backend ecosystems'],
-] as const
+const TILES = [
+  { icon: Rocket, to: 3, suffix: '+', label: 'Roles & internships' },
+  { icon: Layers, to: 4, suffix: '', label: 'Shipped projects' },
+  { icon: Gauge, to: 20, suffix: '%', label: 'Perf gain delivered' },
+  { icon: Sparkles, to: 2, suffix: '', label: 'Backend ecosystems' },
+]
 
 export default function About({ profile }: { profile: Profile }) {
   return (
     <section className="section" id="about">
       <div className="container">
-        <Reveal><span className="eyebrow">01 — About</span></Reveal>
-        <Reveal delay={0.05}><h2 className="section-title">Engineer who cares about the details</h2></Reveal>
-        <div className="about-grid about">
-          <Reveal delay={0.1}>
-            <div>
+        <SectionHeading idx="01 / about" title={<>Engineer who sweats <span className="grad-text">the details</span></>} />
+        <div className="bento">
+          <Reveal className="col-7">
+            <div className="glass spot pad-lg about" style={{ height: '100%' }}>
+              <div className="tile-ico"><Sparkles size={20} /></div>
               <p>{profile.summary}</p>
               <p>
-                Most recently I&apos;ve been building business applications on <strong>Acumatica ERP</strong> and{' '}
-                <strong>ASP.NET Core</strong>, after internships where I shipped MVC apps, tuned LINQ and SQL Server for a{' '}
-                ~20% performance gain, and worked across Spring Boot services.
+                Lately I&apos;ve been building business apps on <strong>Acumatica ERP</strong> and{' '}
+                <strong>ASP.NET Core</strong>. Before that: MVC apps, <strong>~20% faster</strong> via tuned LINQ and SQL Server,
+                and Spring Boot services across two internships.
               </p>
-              <p>
-                I&apos;m a {profile.education.degree} graduate from {profile.education.institution}, based in {profile.location}.
-                I like clean architecture, readable code, and systems that are easy for the next person to reason about.
+              <p style={{ margin: 0 }}>
+                {profile.education.degree} — {profile.education.institution}. Based in {profile.location}.
+                I care about clean architecture and code the next person can actually read.
               </p>
             </div>
           </Reveal>
-          <Reveal delay={0.15}>
-            <div className="stat-grid">
-              {STATS.map(([num, lbl]) => (
-                <div className="stat" key={lbl}>
-                  <div className="num">{num}</div>
-                  <div className="lbl">{lbl}</div>
-                </div>
-              ))}
+
+          <div className="col-5">
+            <div className="bento">
+              {TILES.map((t, i) => {
+                const Icon = t.icon
+                return (
+                  <Reveal key={t.label} delay={i * 0.06} className="col-6">
+                    <TiltCard className="glass spot pad" max={10}>
+                      <div className="tile-ico"><Icon size={18} /></div>
+                      <div className="counter grad-text"><Counter to={t.to} suffix={t.suffix} /></div>
+                      <div className="counter-l">{t.label}</div>
+                    </TiltCard>
+                  </Reveal>
+                )
+              })}
             </div>
-          </Reveal>
+          </div>
         </div>
       </div>
     </section>

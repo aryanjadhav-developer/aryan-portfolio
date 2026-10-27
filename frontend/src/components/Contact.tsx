@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Mail, MapPin, Github, Linkedin, Send, Loader2 } from 'lucide-react'
-import { Reveal } from './motion'
+import { Reveal, SectionHeading, Magnetic } from './motion'
 import { sendContact } from '../lib/api'
 import type { Profile } from '../types'
 
@@ -12,46 +12,37 @@ export default function Contact({ profile }: { profile: Profile }) {
   const [status, setStatus] = useState<Status>('idle')
   const [note, setNote] = useState('')
 
-  const update = (k: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const update = (k: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
     setForm((f) => ({ ...f, [k]: e.target.value }))
-  }
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault()
-    setStatus('sending')
-    setErrors({})
-    setNote('')
+    setStatus('sending'); setErrors({}); setNote('')
     const res = await sendContact(form)
-    if (res.ok) {
-      setStatus('ok')
-      setNote(res.message)
-      setForm({ name: '', email: '', subject: '', message: '' })
-    } else {
-      setStatus('error')
-      setErrors(res.errors ?? {})
-      setNote(res.message)
-    }
+    if (res.ok) { setStatus('ok'); setNote(res.message); setForm({ name: '', email: '', subject: '', message: '' }) }
+    else { setStatus('error'); setErrors(res.errors ?? {}); setNote(res.message) }
   }
 
   return (
     <section className="section" id="contact">
       <div className="container">
-        <Reveal><span className="eyebrow">05 — Contact</span></Reveal>
-        <Reveal delay={0.05}><h2 className="section-title">Let&apos;s build something</h2></Reveal>
-        <Reveal delay={0.1}><p className="section-lead">Have a role, a project, or just want to say hi? Drop a message — it lands straight in my inbox.</p></Reveal>
-
-        <div className="contact-grid">
-          <Reveal delay={0.1}>
-            <div className="contact-info">
-              <a href={`mailto:${profile.email}`}><Mail size={16} /> {profile.email}</a>
-              <a href={profile.github} target="_blank" rel="noopener"><Github size={16} /> github.com/aryanjadhav-developer</a>
-              <a href={profile.linkedin} target="_blank" rel="noopener"><Linkedin size={16} /> linkedin.com/in/aryan-jadhav07</a>
-              <a href="#" onClick={(e) => e.preventDefault()} style={{ cursor: 'default' }}><MapPin size={16} /> {profile.location}</a>
+        <SectionHeading idx="05 / contact" title={<>Let&apos;s <span className="grad-text-warm">build</span> something</>} />
+        <div className="contact-wrap">
+          <Reveal>
+            <div className="contact-cta">
+              <h2>Have a role, a project, or just want to say hi?</h2>
+              <p className="sub" style={{ margin: 0 }}>Drop a message — it posts straight to my inbox via the .NET API.</p>
+              <div className="contact-info">
+                <a href={`mailto:${profile.email}`}><Mail size={16} /> {profile.email}</a>
+                <a href={profile.github} target="_blank" rel="noopener"><Github size={16} /> github.com/aryanjadhav-developer</a>
+                <a href={profile.linkedin} target="_blank" rel="noopener"><Linkedin size={16} /> linkedin.com/in/aryan-jadhav07</a>
+                <span style={{ color: 'var(--text-dim)', display: 'inline-flex', alignItems: 'center', gap: '0.6rem', fontFamily: 'var(--font-mono)', fontSize: '0.88rem', padding: '0.5rem 0' }}><MapPin size={16} /> {profile.location}</span>
+              </div>
             </div>
           </Reveal>
 
-          <Reveal delay={0.15}>
-            <form className="card" onSubmit={onSubmit} noValidate>
+          <Reveal delay={0.1}>
+            <form className="glass spot pad-lg" onSubmit={onSubmit} noValidate>
               <div className="field">
                 <label htmlFor="c-name">Name</label>
                 <input id="c-name" value={form.name} onChange={update('name')} autoComplete="name" required />
@@ -71,9 +62,11 @@ export default function Contact({ profile }: { profile: Profile }) {
                 <textarea id="c-message" value={form.message} onChange={update('message')} required minLength={10} />
                 {errors.message && <div className="err">{errors.message[0]}</div>}
               </div>
-              <button className="btn btn-primary" type="submit" disabled={status === 'sending'}>
-                {status === 'sending' ? <><Loader2 size={16} className="spin" /> Sending…</> : <><Send size={16} /> Send message</>}
-              </button>
+              <Magnetic>
+                <button className="btn btn-primary" type="submit" disabled={status === 'sending'}>
+                  {status === 'sending' ? <><Loader2 size={16} className="spin" /> Sending…</> : <><Send size={16} /> Send message</>}
+                </button>
+              </Magnetic>
               {note && <p className={`form-note ${status === 'ok' ? 'ok' : 'bad'}`} role="status">{note}</p>}
             </form>
           </Reveal>

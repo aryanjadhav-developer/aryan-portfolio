@@ -24,7 +24,7 @@ export default function Navbar() {
     <header className={`nav ${scrolled ? 'scrolled' : ''}`}>
       <div className="container nav-inner">
         <a href="#top" className="brand" aria-label="Home">
-          <span className="dot">{'</>'}</span> aryan<span className="dot">.</span>dev
+          <span className="b1">{'</>'}</span> aryan<span className="b1">.</span>dev
         </a>
         <nav className="nav-links" aria-label="Primary">
           {links.map(([label, href]) => (
