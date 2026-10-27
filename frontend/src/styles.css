@@ -112,7 +112,7 @@ h1, h2, h3, h4 { font-family: var(--font-display); line-height: 1.05; margin: 0;
   background: radial-gradient(22rem 22rem at var(--mx, 50%) var(--my, 50%), var(--cyan), transparent 45%);
   -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
   -webkit-mask-composite: xor; mask-composite: exclude;
-  opacity: 0; transition: opacity 0.35s;
+  opacity: 0; transition: opacity 0.35s; pointer-events: none;
 }
 .spot:hover::before { opacity: 0.9; }
 .spot::after {
@@ -215,12 +215,32 @@ h1, h2, h3, h4 { font-family: var(--font-display); line-height: 1.05; margin: 0;
 .bento > * > .glass, .bento > * > .project { height: 100%; }
 
 /* About */
-.about-split { display: grid; grid-template-columns: 0.85fr 1.15fr; gap: 1.5rem; align-items: start; }
-@media (max-width: 860px) { .about-split { grid-template-columns: 1fr; gap: 1.25rem; } }
-.lead-big { font-family: var(--font-display); font-weight: 600; font-size: clamp(1.5rem, 3.2vw, 2.2rem); line-height: 1.22; letter-spacing: -0.02em; margin: 0 0 1.4rem; }
-.lead-tag { font-family: var(--font-mono); font-size: 0.9rem; color: var(--neon); line-height: 1.7; margin: 0; }
+.about-grid2 { display: grid; grid-template-columns: 0.8fr 1.2fr; gap: 1.5rem; align-items: stretch; }
+@media (max-width: 860px) { .about-grid2 { grid-template-columns: 1fr; gap: 1.25rem; } }
+.lead-big { font-family: var(--font-display); font-weight: 600; font-size: clamp(1.4rem, 2.8vw, 2rem); line-height: 1.25; letter-spacing: -0.02em; margin: 0 0 1.4rem; }
+.lead-tag { font-family: var(--font-mono); font-size: 0.86rem; color: var(--neon); line-height: 1.7; margin: 1.4rem 0 0; }
 .about-body p { color: var(--text-muted); margin: 0 0 1.1rem; }
 .about-body p strong { color: var(--text); }
+
+/* About — profile card with robot avatar */
+.about-card { display: flex; flex-direction: column; align-items: center; text-align: center; }
+.robot-wrap { display: flex; justify-content: center; margin-bottom: 0.5rem; filter: drop-shadow(0 10px 30px rgba(42,212,255,0.2)); }
+.ac-name { font-size: 1.5rem; }
+.ac-role { font-family: var(--font-mono); font-size: 0.85rem; color: var(--cyan); margin: 0.2rem 0 1.1rem; }
+.ac-facts { display: flex; flex-direction: column; gap: 0.6rem; width: 100%; margin-bottom: 1.2rem; }
+.ac-facts span { display: inline-flex; align-items: center; gap: 0.55rem; justify-content: center; font-family: var(--font-mono); font-size: 0.82rem; color: var(--text-muted); }
+.ac-facts span svg { color: var(--neon); flex-shrink: 0; }
+.about-card .chips { justify-content: center; }
+
+/* Robot mascot — pupils track the pointer via --px/--py */
+.robot { line-height: 0; }
+.robot .pupil { transition: transform 0.1s linear; transform: translate(calc(var(--px, 0) * 5px), calc(var(--py, 0) * 4px)); }
+.contact-robot { margin-top: 1.5rem; display: flex; justify-content: flex-start; filter: drop-shadow(0 10px 30px rgba(74,240,138,0.18)); }
+@media (max-width: 860px) { .contact-robot { justify-content: center; } }
+
+/* Skills — "currently exploring" accent tile */
+.exploring-card { border-color: rgba(74,240,138,0.3); }
+.exploring-card .skill-head { color: var(--neon); }
 .tile-ico { width: 40px; height: 40px; border-radius: 12px; display: inline-flex; align-items: center; justify-content: center; background: rgba(42,212,255,0.08); border: 1px solid var(--glass-border); color: var(--cyan); margin-bottom: 1rem; }
 
 /* Skills — masonry columns (no empty stretched boxes) */

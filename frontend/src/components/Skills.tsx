@@ -1,6 +1,8 @@
-import { Code2, Boxes, Database, Wrench, GitBranch } from 'lucide-react'
+import { Code2, Boxes, Database, Wrench, GitBranch, Compass } from 'lucide-react'
 import { Reveal, SectionHeading, TiltCard } from './motion'
 import type { Profile } from '../types'
+
+const EXPLORING = ['Azure', 'Docker', 'CI/CD', 'Microservices', 'AI-assisted Dev']
 
 const ICONS: Record<string, typeof Code2> = {
   Languages: Code2,
@@ -30,6 +32,14 @@ export default function Skills({ profile }: { profile: Profile }) {
               </Reveal>
             )
           })}
+          <Reveal delay={0.3}>
+            <TiltCard className="glass spot pad skill-card exploring-card" max={6}>
+              <div className="skill-head"><Compass size={18} /> Currently exploring</div>
+              <div className="chips">
+                {EXPLORING.map((item) => <span className="chip" key={item}>{item}</span>)}
+              </div>
+            </TiltCard>
+          </Reveal>
         </div>
       </div>
     </section>

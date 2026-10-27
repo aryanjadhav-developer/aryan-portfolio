@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Mail, MapPin, Github, Linkedin, Send, Loader2 } from 'lucide-react'
-import { Reveal, SectionHeading, Magnetic } from './motion'
+import { Reveal, SectionHeading } from './motion'
+import RobotMascot from './RobotMascot'
 import { sendContact } from '../lib/api'
 import type { Profile } from '../types'
 
@@ -38,6 +39,7 @@ export default function Contact({ profile }: { profile: Profile }) {
                 <a href={profile.linkedin} target="_blank" rel="noopener"><Linkedin size={16} /> linkedin.com/in/aryan-jadhav07</a>
                 <span style={{ color: 'var(--text-dim)', display: 'inline-flex', alignItems: 'center', gap: '0.6rem', fontFamily: 'var(--font-mono)', fontSize: '0.88rem', padding: '0.5rem 0' }}><MapPin size={16} /> {profile.location}</span>
               </div>
+              <div className="contact-robot"><RobotMascot size={150} /></div>
             </div>
           </Reveal>
 
@@ -62,11 +64,9 @@ export default function Contact({ profile }: { profile: Profile }) {
                 <textarea id="c-message" value={form.message} onChange={update('message')} required minLength={10} />
                 {errors.message && <div className="err">{errors.message[0]}</div>}
               </div>
-              <Magnetic>
-                <button className="btn btn-primary" type="submit" disabled={status === 'sending'}>
-                  {status === 'sending' ? <><Loader2 size={16} className="spin" /> Sending…</> : <><Send size={16} /> Send message</>}
-                </button>
-              </Magnetic>
+              <button className="btn btn-primary btn-submit" type="submit" disabled={status === 'sending'}>
+                {status === 'sending' ? <><Loader2 size={16} className="spin" /> Sending…</> : <><Send size={16} /> Send message</>}
+              </button>
               {status === 'sending' && <p className="form-note" style={{ color: 'var(--text-dim)' }} role="status">Sending… the server may take ~30s to wake on first send.</p>}
               {note && status !== 'sending' && <p className={`form-note ${status === 'ok' ? 'ok' : 'bad'}`} role="status">{note}</p>}
             </form>
