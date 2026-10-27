@@ -1,0 +1,28 @@
+# ---- .NET ----
+**/bin/
+**/obj/
+*.user
+
+# ---- SQLite ----
+*.db
+*.db-shm
+*.db-wal
+
+# ---- Node / Vite ----
+**/node_modules/
+frontend/dist/
+*.local
+# tsc -b artifacts from the composite node config
+frontend/vite.config.js
+frontend/vite.config.d.ts
+*.tsbuildinfo
+
+# ---- Env (local only; production values set in Render dashboard) ----
+frontend/.env
+
+# ---- Editors / OS ----
+.vs/
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

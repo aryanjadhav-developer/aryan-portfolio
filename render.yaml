@@ -1,0 +1,56 @@
+# Render Blueprint — deploys both services from this repo.
+# Docs: https://render.com/docs/blueprint-spec
+#
+# After the FIRST deploy, set two values in the Render dashboard (both marked
+# sync:false below), then redeploy:
+#   1) aryan-portfolio-api  -> Cors__AllowedOrigins__0 = https://<your-web-site>.onrender.com
+#   2) aryan-portfolio-web  -> VITE_API_URL            = https://<your-api-service>.onrender.com
+#
+# Note: on Render's FREE plan the API spins down when idle (~50s cold start) and
+# its filesystem is ephemeral, so stored contact messages reset on restart.
+# The site stays fully functional meanwhile (it falls back to bundled data).
+# For durable messages: use a paid instance + the disk block below, or swap
+# SQLite for a managed Postgres.
+
+services:
+  # ---------- .NET 9 Web API (Docker) ----------
+  - type: web
+    name: aryan-portfolio-api
+    runtime: docker
+    rootDir: backend/Portfolio.Api
+    dockerfilePath: ./Dockerfile
+    plan: free
+    region: oregon
+    healthCheckPath: /health
+    envVars:
+      - key: ASPNETCORE_ENVIRONMENT
+        value: Production
+      - key: ConnectionStrings__Default
+        value: Data Source=/tmp/portfolio.db
+      - key: Cors__AllowedOrigins__0
+        sync: false # set to the static site URL (https://...onrender.com)
+    # Durable SQLite (paid plans only): uncomment, then point the connection
+    # string above at /data/portfolio.db
+    # disk:
+    #   name: portfolio-data
+    #   mountPath: /data
+    #   sizeGB: 1
+
+  # ---------- React + framer-motion (static site) ----------
+  - type: web
+    name: aryan-portfolio-web
+    runtime: static
+    rootDir: frontend
+    buildCommand: npm ci && npm run build
+    staticPublishPath: ./dist
+    envVars:
+      - key: VITE_API_URL
+        sync: false # set to the API service URL (https://...onrender.com)
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+    headers:
+      - path: /*
+        name: X-Content-Type-Options
+        value: nosniff
