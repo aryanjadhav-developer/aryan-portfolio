@@ -159,7 +159,7 @@ h1, h2, h3, h4 { font-family: var(--font-display); line-height: 1.05; margin: 0;
 }
 
 /* ---------- Hero ---------- */
-.hero { min-height: 100svh; display: flex; align-items: center; padding-top: 66px; position: relative; }
+.hero { min-height: 100svh; display: flex; align-items: center; padding-top: 96px; padding-bottom: clamp(3rem, 7vh, 5rem); position: relative; }
 .hero-grid { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: clamp(1.5rem, 4vw, 3.5rem); align-items: center; width: 100%; }
 @media (max-width: 940px) { .hero-grid { grid-template-columns: 1fr; gap: 2.5rem; } }
 .hero-badge { display: inline-flex; align-items: center; gap: 0.5rem; font-family: var(--font-mono); font-size: 0.8rem; color: var(--neon); padding: 0.4rem 0.85rem; border: 1px solid var(--glass-border); border-radius: 999px; background: rgba(255,255,255,0.03); margin-bottom: 1.4rem; }
@@ -178,10 +178,14 @@ h1, h2, h3, h4 { font-family: var(--font-display); line-height: 1.05; margin: 0;
 .scroll-cue .bar { width: 1px; height: 32px; background: linear-gradient(var(--cyan), transparent); }
 @media (max-width: 940px), (max-height: 760px) { .scroll-cue { display: none; } }
 
-/* Hero stats strip */
-.hero-stats { display: flex; gap: 2rem; margin-top: 1.6rem; flex-wrap: wrap; }
+/* Hero right column (terminal + stats) */
+.hero-right { display: flex; flex-direction: column; gap: 1.1rem; justify-content: center; }
+
+/* Hero stats strip — glass card under the terminal, balances the column */
+.hero-stats { display: flex; gap: 1rem; padding: 1.1rem 1.4rem; justify-content: space-between; flex-wrap: wrap; }
+.hstat { flex: 1; min-width: 92px; }
 .hstat .n { font-family: var(--font-display); font-size: 1.7rem; font-weight: 700; }
-.hstat .l { font-size: 0.78rem; color: var(--text-muted); font-family: var(--font-mono); }
+.hstat .l { font-size: 0.76rem; color: var(--text-muted); font-family: var(--font-mono); margin-top: 0.1rem; }
 
 /* Terminal (hero right) */
 .terminal { border-radius: var(--radius); overflow: hidden; box-shadow: 0 40px 100px -40px rgba(0,0,0,0.9); transform-style: preserve-3d; }
@@ -206,6 +210,9 @@ h1, h2, h3, h4 { font-family: var(--font-display); line-height: 1.05; margin: 0;
   .col-6 { grid-column: span 6; } .col-4 { grid-column: span 4; } .col-8 { grid-column: span 8; } .col-3 { grid-column: span 3; } .col-5 { grid-column: span 5; } .col-7 { grid-column: span 7; }
 }
 .pad { padding: 1.5rem; } .pad-lg { padding: clamp(1.5rem, 3vw, 2.25rem); }
+/* bento cells + their cards fill the row height so everything aligns */
+.bento > * { height: 100%; }
+.bento > * > .glass, .bento > * > .project { height: 100%; }
 
 /* About */
 .about p { color: var(--text-muted); margin: 0 0 1rem; }

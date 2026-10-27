@@ -9,8 +9,8 @@ const ICONS: Record<string, typeof Code2> = {
   'Platforms & Tools': Wrench,
   Practices: GitBranch,
 }
-// col span per category index for an asymmetric bento
-const SPANS = ['col-4', 'col-4', 'col-4', 'col-6', 'col-6']
+// uniform 3-column grid — every card the same width, aligned
+const SPANS = ['col-4', 'col-4', 'col-4', 'col-4', 'col-4']
 
 export default function Skills({ profile }: { profile: Profile }) {
   return (

@@ -23,7 +23,14 @@ export default function Experience({ profile }: { profile: Profile }) {
           ))}
         </div>
 
-        <div className="bento" style={{ marginTop: '1rem' }}>
+        <Reveal>
+          <div className="shead" style={{ marginTop: 'clamp(2.5rem, 5vw, 3.5rem)' }}>
+            <span className="idx">04 · more</span>
+            <h3 style={{ fontSize: 'clamp(1.3rem, 3vw, 1.8rem)' }}>Education &amp; <span className="grad-text">certifications</span></h3>
+            <span className="rule" />
+          </div>
+        </Reveal>
+        <div className="bento">
           <Reveal className="col-6">
             <div className="glass spot pad-lg" style={{ height: '100%' }}>
               <div className="skill-head"><GraduationCap size={18} /> Education</div>

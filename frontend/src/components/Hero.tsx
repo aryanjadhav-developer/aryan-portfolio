@@ -73,12 +73,6 @@ export default function Hero({ profile }: { profile: Profile }) {
             <a className="btn" href="/Aryan_Jadhav_Resume.pdf" target="_blank" rel="noopener"><FileDown size={16} /> Résumé</a>
           </motion.div>
 
-          <motion.div className="hero-stats" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.9, duration: 0.6 }}>
-            <div className="hstat"><div className="n grad-text"><Counter to={3} suffix="+" /></div><div className="l">roles & internships</div></div>
-            <div className="hstat"><div className="n grad-text"><Counter to={4} /></div><div className="l">shipped projects</div></div>
-            <div className="hstat"><div className="n grad-text"><Counter to={20} suffix="%" /></div><div className="l">perf gain delivered</div></div>
-          </motion.div>
-
           <div className="hero-socials">
             <Magnetic strength={0.5}><a className="icon-link" href={profile.github} target="_blank" rel="noopener" aria-label="GitHub"><Github size={20} /></a></Magnetic>
             <Magnetic strength={0.5}><a className="icon-link" href={profile.linkedin} target="_blank" rel="noopener" aria-label="LinkedIn"><Linkedin size={20} /></a></Magnetic>
@@ -86,6 +80,7 @@ export default function Hero({ profile }: { profile: Profile }) {
           </div>
         </div>
 
+        <div className="hero-right">
         <motion.div style={{ y: termY, rotate: termRot }} initial={{ opacity: 0, scale: 0.94 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.8, delay: 0.25, ease: [0.22, 1, 0.36, 1] }} aria-hidden="true">
           <div className="terminal glass">
             <div className="terminal-bar">
@@ -105,6 +100,13 @@ export default function Hero({ profile }: { profile: Profile }) {
             </div>
           </div>
         </motion.div>
+
+          <motion.div className="hero-stats glass" initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
+            <div className="hstat"><div className="n grad-text"><Counter to={3} suffix="+" /></div><div className="l">roles &amp; internships</div></div>
+            <div className="hstat"><div className="n grad-text"><Counter to={4} /></div><div className="l">shipped projects</div></div>
+            <div className="hstat"><div className="n grad-text"><Counter to={20} suffix="%" /></div><div className="l">perf gain delivered</div></div>
+          </motion.div>
+        </div>
       </div>
 
       <div className="scroll-cue"><span>scroll</span><span className="bar" /></div>
