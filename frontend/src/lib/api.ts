@@ -29,26 +29,52 @@ export type ContactResult =
   | { ok: true; message: string }
   | { ok: false; errors?: Record<string, string[]>; message: string }
 
+const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms))
+
+/**
+ * Posts the contact message. The free-tier API may be asleep and take ~30-50s to
+ * wake (or briefly return 502/503), so we retry a few times before giving up.
+ */
 export async function sendContact(payload: ContactPayload): Promise<ContactResult> {
   if (!BASE) {
     return { ok: false, message: 'Contact API is not configured. Email me directly instead.' }
   }
-  try {
-    const res = await fetch(`${BASE}/api/contact`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload),
-    })
-    if (res.ok) {
-      const body = await res.json()
-      return { ok: true, message: body.message ?? 'Message sent!' }
+
+  const maxAttempts = 4
+  for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+    const controller = new AbortController()
+    const timer = setTimeout(() => controller.abort(), 60_000)
+    try {
+      const res = await fetch(`${BASE}/api/contact`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+        signal: controller.signal,
+      })
+      clearTimeout(timer)
+
+      if (res.ok) {
+        const body = await res.json()
+        return { ok: true, message: body.message ?? 'Message sent!' }
+      }
+      if (res.status === 400) {
+        const body = await res.json().catch(() => ({}))
+        return { ok: false, errors: body.errors, message: 'Please fix the highlighted fields.' }
+      }
+      // 502/503/504 = server waking up on Render free tier — retry.
+      if ([502, 503, 504].includes(res.status) && attempt < maxAttempts) {
+        await sleep(3000)
+        continue
+      }
+      return { ok: false, message: `Something went wrong (HTTP ${res.status}). Please try again.` }
+    } catch {
+      clearTimeout(timer)
+      if (attempt < maxAttempts) {
+        await sleep(3000)
+        continue
+      }
+      return { ok: false, message: 'Could not reach the server. Please email me directly instead.' }
     }
-    if (res.status === 400) {
-      const body = await res.json().catch(() => ({}))
-      return { ok: false, errors: body.errors, message: 'Please fix the highlighted fields.' }
-    }
-    return { ok: false, message: `Something went wrong (HTTP ${res.status}). Try again later.` }
-  } catch {
-    return { ok: false, message: 'Could not reach the server. Please try again shortly.' }
   }
+  return { ok: false, message: 'Could not reach the server. Please email me directly instead.' }
 }

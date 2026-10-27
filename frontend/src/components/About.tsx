@@ -1,52 +1,36 @@
-import { Sparkles, Rocket, Gauge, Layers } from 'lucide-react'
-import { Reveal, SectionHeading, Counter, TiltCard } from './motion'
-import type { Profile } from '../types'
+import { Reveal, SectionHeading } from './motion'
 
-const TILES = [
-  { icon: Rocket, to: 3, suffix: '+', label: 'Roles & internships' },
-  { icon: Layers, to: 4, suffix: '', label: 'Shipped projects' },
-  { icon: Gauge, to: 20, suffix: '%', label: 'Perf gain delivered' },
-  { icon: Sparkles, to: 2, suffix: '', label: 'Backend ecosystems' },
-]
-
-export default function About({ profile }: { profile: Profile }) {
+export default function About() {
   return (
     <section className="section" id="about">
       <div className="container">
         <SectionHeading idx="01 / about" title={<>Engineer who sweats <span className="grad-text">the details</span></>} />
-        <div className="bento">
-          <Reveal className="col-7">
-            <div className="glass spot pad-lg about" style={{ height: '100%' }}>
-              <div className="tile-ico"><Sparkles size={20} /></div>
-              <p>{profile.summary}</p>
-              <p>
-                Lately I&apos;ve been building business apps on <strong>Acumatica ERP</strong> and{' '}
-                <strong>ASP.NET Core</strong>. Before that: MVC apps, <strong>~20% faster</strong> via tuned LINQ and SQL Server,
-                and Spring Boot services across two internships.
-              </p>
-              <p style={{ margin: 0 }}>
-                {profile.education.degree} — {profile.education.institution}. Based in {profile.location}.
-                I care about clean architecture and code the next person can actually read.
-              </p>
-            </div>
+        <div className="about-split">
+          <Reveal className="about-lead">
+            <p className="lead-big">
+              I&apos;m a <span className="grad-text">Software Developer</span> who turns complex business
+              requirements into <span className="grad-text">practical, scalable software</span>.
+            </p>
+            <p className="lead-tag">Always learning. Always building. Always looking for a better way to solve the problem.</p>
           </Reveal>
 
-          <div className="col-5">
-            <div className="bento">
-              {TILES.map((t, i) => {
-                const Icon = t.icon
-                return (
-                  <Reveal key={t.label} delay={i * 0.06} className="col-6">
-                    <TiltCard className="glass spot pad" max={10}>
-                      <div className="tile-ico"><Icon size={18} /></div>
-                      <div className="counter grad-text"><Counter to={t.to} suffix={t.suffix} /></div>
-                      <div className="counter-l">{t.label}</div>
-                    </TiltCard>
-                  </Reveal>
-                )
-              })}
-            </div>
-          </div>
+          <Reveal delay={0.1} className="about-body glass spot pad-lg">
+            <p>
+              Currently, I work across the <strong>.NET ecosystem</strong>, building real-world applications,
+              optimizing performance, and developing solutions that solve business problems. Alongside application
+              development, I work with <strong>Acumatica ERP</strong>, delivering customizations, integrations, and
+              reliable technical support to clients.
+            </p>
+            <p>
+              My experience spans backend development, database optimization, API integration, and ERP customization.
+              I enjoy digging into challenging problems, improving existing systems, and using AI-assisted development
+              to work smarter and deliver better results.
+            </p>
+            <p style={{ marginBottom: 0 }}>
+              For me, good software isn&apos;t just about making things work — it&apos;s about making them{' '}
+              <strong>efficient, maintainable, and built to scale.</strong>
+            </p>
+          </Reveal>
         </div>
       </div>
     </section>

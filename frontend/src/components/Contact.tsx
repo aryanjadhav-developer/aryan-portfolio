@@ -31,7 +31,7 @@ export default function Contact({ profile }: { profile: Profile }) {
           <Reveal>
             <div className="contact-cta">
               <h2>Have a role, a project, or just want to say hi?</h2>
-              <p className="sub" style={{ margin: 0 }}>Drop a message — it posts straight to my inbox via the .NET API.</p>
+              <p className="sub" style={{ margin: 0 }}>Drop a message — it lands straight in my inbox.</p>
               <div className="contact-info">
                 <a href={`mailto:${profile.email}`}><Mail size={16} /> {profile.email}</a>
                 <a href={profile.github} target="_blank" rel="noopener"><Github size={16} /> github.com/aryanjadhav-developer</a>
@@ -67,7 +67,8 @@ export default function Contact({ profile }: { profile: Profile }) {
                   {status === 'sending' ? <><Loader2 size={16} className="spin" /> Sending…</> : <><Send size={16} /> Send message</>}
                 </button>
               </Magnetic>
-              {note && <p className={`form-note ${status === 'ok' ? 'ok' : 'bad'}`} role="status">{note}</p>}
+              {status === 'sending' && <p className="form-note" style={{ color: 'var(--text-dim)' }} role="status">Sending… the server may take ~30s to wake on first send.</p>}
+              {note && status !== 'sending' && <p className={`form-note ${status === 'ok' ? 'ok' : 'bad'}`} role="status">{note}</p>}
             </form>
           </Reveal>
         </div>

@@ -104,7 +104,7 @@ export default function Hero({ profile }: { profile: Profile }) {
           <motion.div className="hero-stats glass" initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
             <div className="hstat"><div className="n grad-text"><Counter to={3} suffix="+" /></div><div className="l">roles &amp; internships</div></div>
             <div className="hstat"><div className="n grad-text"><Counter to={4} /></div><div className="l">shipped projects</div></div>
-            <div className="hstat"><div className="n grad-text"><Counter to={20} suffix="%" /></div><div className="l">perf gain delivered</div></div>
+            <div className="hstat"><div className="n grad-text"><Counter to={2} /></div><div className="l">backend ecosystems</div></div>
           </motion.div>
         </div>
       </div>

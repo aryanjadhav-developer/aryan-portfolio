@@ -46,7 +46,7 @@ export default function App() {
       <main>
         <Hero profile={profile} />
         <Marquee />
-        <About profile={profile} />
+        <About />
         <Skills profile={profile} />
         <Projects projects={projects} />
         <Experience profile={profile} />
