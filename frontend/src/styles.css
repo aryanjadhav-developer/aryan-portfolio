@@ -159,7 +159,7 @@ h1, h2, h3, h4 { font-family: var(--font-display); line-height: 1.05; margin: 0;
 }
 
 /* ---------- Hero ---------- */
-.hero { min-height: 100svh; display: flex; align-items: center; padding-top: 96px; padding-bottom: clamp(3rem, 7vh, 5rem); position: relative; }
+.hero { min-height: 100svh; display: flex; align-items: center; padding-top: 96px; padding-bottom: clamp(3rem, 6vw, 5rem); position: relative; }
 .hero-grid { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: clamp(1.5rem, 4vw, 3.5rem); align-items: center; width: 100%; }
 @media (max-width: 940px) { .hero-grid { grid-template-columns: 1fr; gap: 2.5rem; } }
 .hero-badge { display: inline-flex; align-items: center; gap: 0.5rem; font-family: var(--font-mono); font-size: 0.8rem; color: var(--neon); padding: 0.4rem 0.85rem; border: 1px solid var(--glass-border); border-radius: 999px; background: rgba(255,255,255,0.03); margin-bottom: 1.4rem; }
@@ -178,14 +178,18 @@ h1, h2, h3, h4 { font-family: var(--font-display); line-height: 1.05; margin: 0;
 .scroll-cue .bar { width: 1px; height: 32px; background: linear-gradient(var(--cyan), transparent); }
 @media (max-width: 940px), (max-height: 760px) { .scroll-cue { display: none; } }
 
-/* Hero right column (terminal + stats) */
-.hero-right { display: flex; flex-direction: column; gap: 1.1rem; justify-content: center; }
+/* Hero right column (terminal + floating badges) */
+.hero-right { display: flex; flex-direction: column; gap: 1.4rem; justify-content: center; }
 
-/* Hero stats strip — glass card under the terminal, balances the column */
-.hero-stats { display: flex; gap: 1rem; padding: 1.1rem 1.4rem; justify-content: space-between; flex-wrap: wrap; }
-.hstat { flex: 1; min-width: 92px; }
-.hstat .n { font-family: var(--font-display); font-size: 1.7rem; font-weight: 700; }
-.hstat .l { font-size: 0.76rem; color: var(--text-muted); font-family: var(--font-mono); margin-top: 0.1rem; }
+/* Floating tech badges under the terminal */
+.hero-float { display: flex; flex-wrap: wrap; gap: 0.6rem; justify-content: center; }
+.hero-chip {
+  font-family: var(--font-mono); font-size: 0.8rem; color: var(--text);
+  background: rgba(255,255,255,0.04); border: 1px solid var(--glass-border);
+  border-radius: 999px; padding: 0.45rem 0.85rem; backdrop-filter: blur(6px);
+  transition: border-color 0.2s, color 0.2s;
+}
+.hero-chip:hover { border-color: var(--cyan); color: var(--cyan); }
 
 /* Terminal (hero right) */
 .terminal { border-radius: var(--radius); overflow: hidden; box-shadow: 0 40px 100px -40px rgba(0,0,0,0.9); transform-style: preserve-3d; }
@@ -196,7 +200,7 @@ h1, h2, h3, h4 { font-family: var(--font-display); line-height: 1.05; margin: 0;
 .terminal-body .prompt { color: var(--neon); } .terminal-body .key { color: var(--cyan); } .terminal-body .str { color: #b8ffcf; } .terminal-body .com { color: var(--text-dim); } .terminal-body .fn { color: var(--violet); }
 
 /* ---------- Marquee ---------- */
-.marquee { position: relative; overflow: hidden; border-block: 1px solid var(--glass-border); padding-block: 1rem; background: rgba(255,255,255,0.015); mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
+.marquee { position: relative; overflow: hidden; border-block: 1px solid var(--glass-border); padding-block: 1rem; margin-block: clamp(2rem, 5vw, 3.5rem); background: rgba(255,255,255,0.015); mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
 .marquee-track { display: flex; gap: 2.5rem; width: max-content; animation: scrollx 32s linear infinite; }
 .marquee:hover .marquee-track { animation-play-state: paused; }
 .marquee-item { font-family: var(--font-mono); font-size: 1rem; color: var(--text-muted); display: inline-flex; align-items: center; gap: 2.5rem; white-space: nowrap; }
@@ -297,7 +301,7 @@ h1, h2, h3, h4 { font-family: var(--font-display); line-height: 1.05; margin: 0;
 .form-note.ok { color: var(--neon); } .form-note.bad { color: #ff8585; }
 
 /* Footer */
-.footer { border-top: 1px solid var(--glass-border); padding-block: 2rem; margin-top: 3rem; }
+.footer { border-top: 1px solid var(--glass-border); padding-block: 2rem; }
 .footer-inner { display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
 .footer small { color: var(--text-dim); font-family: var(--font-mono); font-size: 0.8rem; }
 .api-badge { font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-dim); display: inline-flex; align-items: center; gap: 0.4rem; }

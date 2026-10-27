@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState } from 'react'
 import { Github, Linkedin, Mail, ArrowRight, FileDown } from 'lucide-react'
-import { motion, useReducedMotion, Magnetic, Counter } from './motion'
+import { motion, useReducedMotion, Magnetic } from './motion'
 import { useScroll, useTransform } from 'framer-motion'
 import type { Profile } from '../types'
 
 const ROLES = ['.NET Backend Developer', 'ASP.NET Core Engineer', 'Full-Stack Web Developer', 'Clean-Code Advocate']
+const HERO_BADGES = ['C#', '.NET', 'ASP.NET Core', 'React', 'SQL Server', 'EF Core', 'Azure', 'SignalR']
 
 function useTypewriter(words: string[], enabled: boolean) {
   const [text, setText] = useState(enabled ? '' : words[0])
@@ -52,9 +53,9 @@ export default function Hero({ profile }: { profile: Profile }) {
           </motion.span>
 
           <h1>
-            <span className="line"><motion.span style={{ display: 'inline-block' }} custom={0} variants={lineV} initial="hidden" animate="show">Hi, I&apos;m <span className="grad-text">{first}</span></motion.span></span>
-            <span className="line"><motion.span style={{ display: 'inline-block' }} custom={1} variants={lineV} initial="hidden" animate="show">I ship reliable</motion.span></span>
-            <span className="line"><motion.span style={{ display: 'inline-block' }} custom={2} variants={lineV} initial="hidden" animate="show">software.</motion.span></span>
+            <span className="line"><motion.span style={{ display: 'inline-block' }} custom={0} variants={lineV} initial="hidden" animate="show">Hi, I&apos;m <span className="grad-text">{first}</span>.</motion.span></span>
+            <span className="line"><motion.span style={{ display: 'inline-block' }} custom={1} variants={lineV} initial="hidden" animate="show">I build software</motion.span></span>
+            <span className="line"><motion.span style={{ display: 'inline-block' }} custom={2} variants={lineV} initial="hidden" animate="show">that <span className="grad-text">scales</span>.</motion.span></span>
           </h1>
 
           <p className="hero-role" aria-live="polite">
@@ -64,7 +65,7 @@ export default function Hero({ profile }: { profile: Profile }) {
           </p>
 
           <motion.p className="hero-lead" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.6, duration: 0.6 }}>
-            {profile.summary}
+            Backend-focused <strong>.NET developer</strong> — I turn complex business requirements into clean, scalable systems.
           </motion.p>
 
           <motion.div className="hero-actions" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.7, duration: 0.5 }}>
@@ -101,11 +102,18 @@ export default function Hero({ profile }: { profile: Profile }) {
           </div>
         </motion.div>
 
-          <motion.div className="hero-stats glass" initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
-            <div className="hstat"><div className="n grad-text"><Counter to={3} suffix="+" /></div><div className="l">roles &amp; internships</div></div>
-            <div className="hstat"><div className="n grad-text"><Counter to={4} /></div><div className="l">shipped projects</div></div>
-            <div className="hstat"><div className="n grad-text"><Counter to={2} /></div><div className="l">backend ecosystems</div></div>
-          </motion.div>
+          <div className="hero-float" aria-hidden="true">
+            {HERO_BADGES.map((b, i) => (
+              <motion.span
+                className="hero-chip"
+                key={b}
+                animate={reduce ? {} : { y: [0, -7, 0] }}
+                transition={{ duration: 3 + (i % 4) * 0.4, repeat: Infinity, ease: 'easeInOut', delay: i * 0.18 }}
+              >
+                {b}
+              </motion.span>
+            ))}
+          </div>
         </div>
       </div>
 
