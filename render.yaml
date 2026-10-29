@@ -29,6 +29,12 @@ services:
         value: Data Source=/tmp/portfolio.db
       - key: Cors__AllowedOrigins__0
         sync: false # set to the static site URL (https://...onrender.com)
+      - key: Brevo__ApiKey
+        sync: false # your Brevo API key (same account as CabinBooking)
+      - key: Email__From
+        sync: false # a Brevo-verified sender address
+      - key: Contact__NotifyTo
+        value: aryanjadhav4305@gmail.com # where enquiries are emailed
     # Durable SQLite (paid plans only): uncomment, then point the connection
     # string above at /data/portfolio.db
     # disk:

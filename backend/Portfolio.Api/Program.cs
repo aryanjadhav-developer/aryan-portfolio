@@ -1,6 +1,8 @@
+using System.Net;
 using Microsoft.EntityFrameworkCore;
 using Portfolio.Api.Data;
 using Portfolio.Api.Models;
+using Portfolio.Api.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,6 +25,9 @@ builder.Services.AddCors(o => o.AddPolicy(CorsPolicy, p =>
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+// Email (Brevo) — same provider as CabinBooking.
+builder.Services.AddSingleton<EmailSender>();
 
 var app = builder.Build();
 
@@ -58,7 +63,7 @@ app.MapGet("/api/projects/{slug}", (string slug) =>
     return project is null ? Results.NotFound() : Results.Ok(project);
 }).WithName("GetProject");
 
-app.MapPost("/api/contact", async (ContactRequest req, AppDbContext db) =>
+app.MapPost("/api/contact", async (ContactRequest req, AppDbContext db, EmailSender email, IConfiguration cfg) =>
 {
     var errors = new Dictionary<string, string[]>();
     if (string.IsNullOrWhiteSpace(req.Name))
@@ -80,6 +85,21 @@ app.MapPost("/api/contact", async (ContactRequest req, AppDbContext db) =>
     };
     db.ContactMessages.Add(msg);
     await db.SaveChangesAsync();
+
+    // Notify the owner by email (Brevo). Doesn't block success if it fails.
+    var notifyTo = cfg["Contact:NotifyTo"] ?? "aryanjadhav4305@gmail.com";
+    var subject = $"New portfolio enquiry from {msg.Name}"
+                  + (string.IsNullOrWhiteSpace(msg.Subject) ? "" : $" — {msg.Subject}");
+    var html =
+        $"<h2>New enquiry from your portfolio</h2>" +
+        $"<p><strong>Name:</strong> {WebUtility.HtmlEncode(msg.Name)}<br>" +
+        $"<strong>Email:</strong> {WebUtility.HtmlEncode(msg.Email)}<br>" +
+        (string.IsNullOrWhiteSpace(msg.Subject) ? "" : $"<strong>Subject:</strong> {WebUtility.HtmlEncode(msg.Subject)}<br>") +
+        $"<strong>Received:</strong> {msg.CreatedAtUtc:u}</p>" +
+        $"<p><strong>Message:</strong></p>" +
+        $"<p style=\"white-space:pre-wrap\">{WebUtility.HtmlEncode(msg.Message)}</p>";
+
+    await email.SendAsync(notifyTo, subject, html, replyToEmail: msg.Email, replyToName: msg.Name);
 
     return Results.Ok(new { ok = true, id = msg.Id, message = "Thanks! Your message was received." });
 }).WithName("PostContact");
